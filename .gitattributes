@@ -1,0 +1,10 @@
+Assets/copy.sh filter=lfs diff=lfs merge=lfs -text
+Assets/sprite.bin filter=lfs diff=lfs merge=lfs -text
+Assets/sprite.pal filter=lfs diff=lfs merge=lfs -text
+Assets/theme.bin filter=lfs diff=lfs merge=lfs -text
+Assets/theme.mus filter=lfs diff=lfs merge=lfs -text
+Assets/tiles.bin filter=lfs diff=lfs merge=lfs -text
+Assets/lvl1.map filter=lfs diff=lfs merge=lfs -text
+Assets/music.bin filter=lfs diff=lfs merge=lfs -text
+Assets/theme2.mus filter=lfs diff=lfs merge=lfs -text
+Assets/tiles.pal filter=lfs diff=lfs merge=lfs -text

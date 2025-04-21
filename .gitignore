@@ -1,0 +1,10 @@
+*.ps1
+*.map
+*.lst
+*.pgz
+workspace/
+Working/
+.venv/
+.zed/
+cspell.json
+*.sh
