@@ -19,7 +19,6 @@ _yes
     pla
     rts
 
-
 handlePosition
     lda #0
     jsr setSpriteNumber
@@ -39,7 +38,6 @@ handleLocalState
     jsr isSetup
     jsr isMove
     rts
-
 
 isSetup
     lda mState
@@ -63,11 +61,16 @@ move
     jsr framecontrol
     jsr loadFrame
 
-    jsr direction
+     jsr direction
+    ; jsr sprite2bitmap
+    ; lda posBitmapX
+    ; ldx posBitmapX + 1
+    ; ldy posBitmapY
+    ; jsr util.tileFromPixel
+    jsr debug
     rts
 
 direction
-
     jsr isF1Pressed
     bcc _reset
 
@@ -87,12 +90,25 @@ direction
     bcc _moveEast
     rts
 _moveNorth
+
+   ;lda map.pixelsY
+   ;cmp #0
+   ;bne _okNorth
+   jsr getNorthTile
+   lda map.tileNumber
+   lda map.tileNumber
+   cmp #0
+   beq _okNorth
+    rts
+_okNorth
     jsr moveNorth
     rts
 _moveWest
+    jsr getNorthTile
     jsr moveWest
     rts
 _moveEast
+    jsr getNorthTile
     jsr moveEast
     rts
 _moveNW
@@ -115,7 +131,7 @@ moveWest
     beq _continueWest
 
     lda posX
-    cmp #$32
+    cmp #32
     bcs _continueWest
     rts
 _continueWest
@@ -144,12 +160,22 @@ _continueEast
     adc #0
     sta posX + 1
     rts
-
+getNorthTile
+    jsr sprite2bitmap
+    lda posBitmapX
+    ldx posBitmapX + 1
+    ldy posBitmapY
+    jsr util.tileFromPixel
+    lda util.xTile
+    ldx util.yTile
+    jsr map.getTile
+    rts
 setup
     jsr clearVideo
     jsr enableGrafix
     jsr enableSprite
     jsr enableTile
+    jsr enableText
     jsr setVideo
 
 
@@ -186,6 +212,24 @@ setup
     jsr showSprite
     lda #moveState
     sta mState
+    rts
+
+sprite2bitmap
+    lda posX
+    sec
+    sbc #32 - 8
+    sta posBitmapX
+    lda posX + 1
+    sbc #0
+    sta posBitmapX + 1
+
+    lda posY
+    sec
+    sbc #46
+    sta posBitmapY
+    lda posY + 1
+    sbc #0
+    sta posBitmapY + 1
     rts
 
 
@@ -331,6 +375,11 @@ mFrameTracker
 posX
     .byte 0,0
 posY
+    .byte 0,0
+
+posBitmapX
+    .byte 0,0
+posBitmapY
     .byte 0,0
 .endsection
 .endnamespace

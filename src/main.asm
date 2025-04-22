@@ -18,33 +18,7 @@ main
     lda #$47
     sta VKY_BKG_COL_G
 
-    ; jsr clearVideo
-    ; jsr enableGrafix
-    ; jsr enableSprite
-    ; jsr enableTile
-    ; jsr setVideo
 
-    ; lda #0
-    ; jsr setTileMapNumber
-
-    ; lda #<mTileSetStart
-    ; ldx #>mTileSetStart
-    ; ldy #`mTileSetStart
-    ; jsr setTileSetAddress
-
-    ; lda #<mTileMapStart
-    ; ldx #>mTileMapStart
-    ; ldy #`mTileMapStart
-    ; jsr setTileMapAddress
-
-    ; lda #21
-    ; ldx #100
-    ; jsr setMapSize
-
-    ; lda #85
-    ; ldx #0
-    ; jsr setTilePositionY
-    jsr map.init
 
     lda #$20
     jsr setA000
@@ -61,8 +35,9 @@ main
 
 
     stz MMU_IO_CTRL
+
     jsr initEvents
-     jsr mmu_init ; initialize MMU library
+    jsr mmu_init ; initialize MMU library
     lda #<data_addr
     sta mmu_seekaddr
     lda #>data_addr
@@ -77,6 +52,7 @@ main
 
     jsr state.init
     jsr player.init
+    jsr map.init
 
     jsr setFrameTimer
     jsr handleEvents
@@ -102,19 +78,20 @@ _gameLoop
 .include "./state.asm"
 .include "./player.asm"
 .include "./map.asm"
+.include "./util.asm"
 .include "./debug.asm"
-mMusic
+
 *=$10000
+mMusic
 .binary "../Assets/theme.mus"
 
-mPalStart
 *=$40000
+mPalStart
     .binary "../Assets/tiles.pal"
 *=$42000
     .binary "../Assets/sprite.pal"
-
-mSpriteStart
 *=$50000
+mSpriteStart
     .binary "../Assets/sprite.bin"
 *=$60000
 mTileMapStart
