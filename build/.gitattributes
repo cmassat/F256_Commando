@@ -1,0 +1,2 @@
+../Assets/sprites.bin filter=lfs diff=lfs merge=lfs -text
+../Assets/sprites.pal filter=lfs diff=lfs merge=lfs -text

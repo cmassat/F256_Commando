@@ -90,25 +90,12 @@ direction
     bcc _moveEast
     rts
 _moveNorth
-
-   ;lda map.pixelsY
-   ;cmp #0
-   ;bne _okNorth
-   jsr getNorthTile
-   lda map.tileNumber
-   lda map.tileNumber
-   cmp #0
-   beq _okNorth
-    rts
-_okNorth
     jsr moveNorth
     rts
 _moveWest
-    jsr getNorthTile
     jsr moveWest
     rts
 _moveEast
-    jsr getNorthTile
     jsr moveEast
     rts
 _moveNW
@@ -123,6 +110,15 @@ _reset
     jsr map.init
     rts
 moveNorth
+    lda map.pixelsY
+    cmp #0
+    bne _okNorth
+    jsr getNorthTile
+    lda map.tileNumber
+    cmp #0
+    beq _okNorth
+    rts
+_okNorth
     jsr map.moveNorth
     rts
 moveWest
@@ -135,6 +131,17 @@ moveWest
     bcs _continueWest
     rts
 _continueWest
+    jsr getWestTile
+    lda map.tileNumber
+    cmp #0
+    beq _okWest
+
+    lda posBitmapX
+    and #$0f
+    cmp #0
+    bne _okWest
+    rts
+_okWest
     lda posX
     sec
     sbc #1
@@ -148,10 +155,20 @@ moveEast
     cmp #0
     beq _continueEast
     lda posX
-    cmp #$40
+    cmp #$50
     bcc _continueEast
     rts
 _continueEast
+    jsr getEastTile
+    lda map.tileNumber
+    cmp #0
+    beq _okEast
+    lda posBitmapX
+    and #$0f
+    cmp #0
+    bne _okEast
+    rts
+_okEast
     lda posX
     clc
     adc #1
@@ -160,6 +177,7 @@ _continueEast
     adc #0
     sta posX + 1
     rts
+
 getNorthTile
     jsr sprite2bitmap
     lda posBitmapX
@@ -167,9 +185,36 @@ getNorthTile
     ldy posBitmapY
     jsr util.tileFromPixel
     lda util.xTile
+    dec util.yTile
     ldx util.yTile
     jsr map.getTile
     rts
+
+getEastTile
+    jsr sprite2bitmap
+    lda posBitmapX
+    ldx posBitmapX + 1
+    ldy posBitmapY
+    jsr util.tileFromPixel
+   ; inc util.xTile
+    lda util.xTile
+    ldx util.yTile
+    jsr map.getTile
+    rts
+
+getWestTile
+    jsr sprite2bitmap
+    lda posBitmapX
+    ldx posBitmapX + 1
+    ldy posBitmapY
+    jsr util.tileFromPixel
+    dec util.xTile
+    lda util.xTile
+
+    ldx util.yTile
+    jsr map.getTile
+    rts
+
 setup
     jsr clearVideo
     jsr enableGrafix
@@ -225,7 +270,7 @@ sprite2bitmap
 
     lda posY
     sec
-    sbc #46
+    sbc #64 - 24
     sta posBitmapY
     lda posY + 1
     sbc #0

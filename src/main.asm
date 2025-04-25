@@ -86,13 +86,14 @@ mMusic
 .binary "../Assets/theme.mus"
 
 *=$40000
-mPalStart
+mPalStart0
     .binary "../Assets/tiles.pal"
+mPalStart1
 *=$42000
-    .binary "../Assets/sprite.pal"
+    .binary "../Assets/sprites.pal"
 *=$50000
 mSpriteStart
-    .binary "../Assets/sprite.bin"
+    .binary "../Assets/sprites.bin"
 *=$60000
 mTileMapStart
     .binary "../Assets/lvl1.map"

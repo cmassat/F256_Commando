@@ -33,7 +33,7 @@ debug
     tay
     lda mHex, y
     sta $C003
-
+;; PLAYER POSITION
     lda player.posBitmapX + 1
     lsr
     lsr
@@ -66,7 +66,39 @@ debug
     sta $C003   + 80
 
 
-    lda util.tempX + 1
+    lda map.posX
+    lsr
+    lsr
+    lsr
+    lsr
+    tay
+    lda mHex, y
+    sta $C005  + 80
+
+    lda map.posX
+    and #$0F
+    tay
+    lda mHex, y
+    sta $C006   + 80
+
+
+    lda map.posY
+    lsr
+    lsr
+    lsr
+    lsr
+    tay
+    lda mHex, y
+    sta $C007   + 80
+
+    lda map.posY
+    and #$0F
+    tay
+    lda mHex, y
+    sta $C008   + 80
+
+;; PLAYER POSITION
+    lda util.tempX
     lsr
     lsr
     lsr
@@ -75,14 +107,14 @@ debug
     lda mHex, y
     sta $C000  + 80  + 80
 
-    lda util.tempX + 1
+    lda util.tempX
     and #$0F
     tay
     lda mHex, y
     sta $C001   + 80  + 80
 
 
-    lda util.tempX
+    lda util.tempY
     lsr
     lsr
     lsr
@@ -91,14 +123,14 @@ debug
     lda mHex, y
     sta $C002   + 80  + 80
 
-    lda util.tempX
+    lda util.tempY
     and #$0F
     tay
     lda mHex, y
     sta $C003 + 80  + 80
 
 
-    lda util.tmpTile
+    lda util.xTile
     lsr
     lsr
     lsr
@@ -107,13 +139,32 @@ debug
     lda mHex, y
     sta $C000   + 160 + 80
 
-    lda util.tmpTile
+    lda util.xTile
     and #$0F
     tay
     lda mHex, y
     sta $C001   + 160 + 80
 
 
+    lda util.yTile
+    lsr
+    lsr
+    lsr
+    lsr
+    tay
+    lda mHex, y
+    sta $C002 + 160 + 80
+
+    lda util.yTile
+    and #$0F
+    tay
+    lda mHex, y
+    sta $C003   + 160 + 80
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
     lda map.tileNumber
     lsr
     lsr
@@ -121,30 +172,13 @@ debug
     lsr
     tay
     lda mHex, y
-    sta $C000  + 160 + 80 + 80
+    sta $C000   + 160 + 160
 
     lda map.tileNumber
     and #$0F
     tay
     lda mHex, y
-    sta $C001   + 160 + 80 + 80
-
-
-
-    ; lda POINTER_SRC + 1
-    ; lsr
-    ; lsr
-    ; lsr
-    ; lsr
-    ; tay
-    ; lda mHex, y
-    ; sta $C000   + 160 + 80
-
-    ; lda  POINTER_SRC + 1
-    ; and #$0F
-    ; tay
-    ; lda mHex, y
-    ; sta $C001   + 160 + 80
+    sta $C001   + 160 + 160
 
 
     ; lda  POINTER_SRC

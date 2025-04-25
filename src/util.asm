@@ -17,6 +17,9 @@ tileFromPixel
     sta yTile
 
     rts
+getYScreenPosition
+    rts
+
 getScreenPosition
     sta tempX
     stx tempX + 1
@@ -24,6 +27,7 @@ getScreenPosition
     jsr getRowLo
     lda tmpTile
     sta yTile
+    sta tempY
 
     lda tempX + 1
     cmp #1
