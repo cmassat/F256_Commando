@@ -32,6 +32,27 @@ handlePosition
     lda posX
     ldx posX + 1
     jsr setSpriteX
+
+    lda #0
+    jsr setSpriteNumber
+    lda posY
+    ldx posY + 1
+    jsr setSpriteY
+    jsr showSprite
+
+
+    lda #1
+    jsr setSpriteNumber
+    lda posY
+    clc
+    adc #16
+    pha
+    lda posY + 1
+    adc #0
+    tax
+    pla
+    jsr setSpriteY
+    jsr showSprite
     rts
 
 handleLocalState
@@ -61,12 +82,7 @@ move
     jsr framecontrol
     jsr loadFrame
 
-     jsr direction
-    ; jsr sprite2bitmap
-    ; lda posBitmapX
-    ; ldx posBitmapX + 1
-    ; ldy posBitmapY
-    ; jsr util.tileFromPixel
+    jsr direction
     jsr debug
     rts
 
@@ -80,6 +96,12 @@ direction
     jsr isNWPressed
     bcc _moveNW
 
+    jsr isSWPressed
+    bcc _moveSW
+
+    jsr isSEPressed
+    bcc _moveSE
+
     jsr isWPressed
     bcc _moveNorth
 
@@ -88,6 +110,9 @@ direction
 
     jsr isDPressed
     bcc _moveEast
+
+    jsr isSPressed
+    bcc _moveSouth
     rts
 _moveNorth
     jsr moveNorth
@@ -109,6 +134,20 @@ _moveNE
 _reset
     jsr map.init
     rts
+
+
+_moveSW
+    jsr moveSouth
+    jsr moveWest
+    rts
+_moveSE
+    jsr moveSouth
+    jsr moveEast
+    rts
+
+_moveSouth
+    jsr moveSouth
+    rts
 moveNorth
     lda map.pixelsY
     cmp #0
@@ -119,8 +158,21 @@ moveNorth
     beq _okNorth
     rts
 _okNorth
+    lda posY
+    cmp #160
+    bcs _moveSprite
     jsr map.moveNorth
     rts
+_moveSprite
+    lda posY
+    sec
+    sbc #1
+    sta posY
+    lda posY + 1
+    sbc #0
+    sta posY + 1
+    rts
+
 moveWest
     lda posX + 1
     cmp #1
@@ -178,6 +230,25 @@ _okEast
     sta posX + 1
     rts
 
+moveSouth
+   ; lda map.pixelsY
+   ; cmp #0
+   ; beq _ok
+    jsr getSouthTile
+    lda map.tileNumber
+    cmp #0
+    beq _ok
+    rts
+_ok
+    lda posY
+    clc
+    adc #1
+    sta posY
+    lda posY + 1
+    adc #0
+    sta posY + 1
+    rts
+
 getNorthTile
     jsr sprite2bitmap
     lda posBitmapX
@@ -185,8 +256,8 @@ getNorthTile
     ldy posBitmapY
     jsr util.tileFromPixel
     lda util.xTile
-    dec util.yTile
     ldx util.yTile
+    dex
     jsr map.getTile
     rts
 
@@ -196,8 +267,8 @@ getEastTile
     ldx posBitmapX + 1
     ldy posBitmapY
     jsr util.tileFromPixel
-   ; inc util.xTile
     lda util.xTile
+    inc a
     ldx util.yTile
     jsr map.getTile
     rts
@@ -208,10 +279,21 @@ getWestTile
     ldx posBitmapX + 1
     ldy posBitmapY
     jsr util.tileFromPixel
-    dec util.xTile
     lda util.xTile
-
+    dec a
     ldx util.yTile
+    jsr map.getTile
+    rts
+
+getSouthTile
+    jsr sprite2bitmap
+    lda posBitmapX
+    ldx posBitmapX + 1
+    ldy posBitmapY
+    jsr util.tileFromPixel
+    lda util.xTile
+    ldx util.yTile
+    inx
     jsr map.getTile
     rts
 
@@ -222,6 +304,10 @@ setup
     jsr enableTile
     jsr enableText
     jsr setVideo
+
+    jsr setTileMapLayer0
+    jsr setTileMapLayer1
+    jsr setLayers
 
 
     lda #0
@@ -254,7 +340,7 @@ setup
     lda #<200 + 16
     ldx #>200 + 16
     jsr setSpriteY
-    jsr showSprite
+   ; jsr showSprite
     lda #moveState
     sta mState
     rts
@@ -270,7 +356,7 @@ sprite2bitmap
 
     lda posY
     sec
-    sbc #64 - 24
+    sbc #32 - 32
     sta posBitmapY
     lda posY + 1
     sbc #0
@@ -320,7 +406,7 @@ _fr0
     ldx >#player_up_top0
     ldy `#player_up_top0
     jsr setSpriteAddress
-    jsr showSprite
+
 
     lda #1
     jsr setSpriteNumber
@@ -329,7 +415,7 @@ _fr0
     ldx >#player_up_bot0
     ldy `#player_up_bot0
     jsr setSpriteAddress
-    jsr showSprite
+
     rts
 _fr1
    lda #0
@@ -351,7 +437,7 @@ _fr1
   ;  jsr showSprite
     rts
 _fr2
-  lda #0
+    lda #0
     jsr setSpriteNumber
 
     lda <#player_up_top2
@@ -400,9 +486,9 @@ init
     lda #>320/2 + 32
     sta posX + 1
 
-    lda #<200 + 32
+    lda #<240/2 + 32
     sta posY
-    lda #>200 + 32
+    lda #>240/2 + 32
     sta posY + 1
     rts
 

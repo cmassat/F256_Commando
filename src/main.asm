@@ -4,12 +4,12 @@
 *=$2000
 .dsection code
 
-
 .section code
 start
     jmp main
 
 main
+    jsr clearScreenMemory
     stz MMU_IO_CTRL
     lda #00
     sta VKY_BKG_COL_B
@@ -17,8 +17,6 @@ main
     sta VKY_BKG_COL_R
     lda #$47
     sta VKY_BKG_COL_G
-
-
 
     lda #$20
     jsr setA000
@@ -31,8 +29,6 @@ main
     lda #5
     jsr setA000
     lda #0
-
-
 
     stz MMU_IO_CTRL
 
@@ -49,6 +45,7 @@ main
     jsr vgm_start
     jsr vgm_play
     jsr showTileMap0
+    jsr showTileMap1
 
     jsr state.init
     jsr player.init
@@ -91,6 +88,8 @@ mPalStart0
 mPalStart1
 *=$42000
     .binary "../Assets/sprites.pal"
+mBorderMap
+    .binary "../Assets/border.map"
 *=$50000
 mSpriteStart
     .binary "../Assets/sprites.bin"

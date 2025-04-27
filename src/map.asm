@@ -78,6 +78,23 @@ init
     ldy #`mTileSetStart
     jsr setTileSetAddress
 
+    lda #<mBorderMap
+    ldx #>mBorderMap
+    ldy #`mBorderMap
+    jsr setTileMapAddress
+
+    lda #21
+    ldx #21
+    jsr setMapSize
+
+    lda #1
+    jsr setTileMapNumber
+
+    lda #<mTileSetStart
+    ldx #>mTileSetStart
+    ldy #`mTileSetStart
+    jsr setTileSetAddress
+
     lda #<mTileMapStart
     ldx #>mTileMapStart
     ldy #`mTileMapStart

@@ -27,7 +27,7 @@ getScreenPosition
     jsr getRowLo
     lda tmpTile
     sta yTile
-    sta tempY
+    sta screenY
 
     lda tempX + 1
     cmp #1
@@ -37,12 +37,14 @@ _getLow
     jsr getRowLo
     lda tmpTile
     sta xTile
+    sta screenX
     rts
 _getHi
     lda tempX
     jsr getRowHi
     lda tmpTile
     sta xTile
+    sta screenX
     rts
 
 getRowHi
@@ -174,8 +176,10 @@ _15
 .section variables 
 tempX
     .byte 0,0
-tempY
-    .byte 0,0
+screenX
+    .byte 0
+screenY
+    .byte 0
 tmpTile
     .byte 0
 yTile

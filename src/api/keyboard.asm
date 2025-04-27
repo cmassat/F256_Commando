@@ -318,6 +318,38 @@ isWPressed
     clc
     rts
 
+isSWPressed
+    lda mKeyA
+    cmp #1
+    beq _checkS
+    sec
+    rts
+ _checkS
+    lda mKeyS
+    cmp #1
+    beq _yes
+    sec
+    rts
+_yes
+    clc
+    rts
+
+isSEPressed
+    lda mKeyD
+    cmp #1
+    beq _checkS
+    sec
+    rts
+ _checkS
+    lda mKeyS
+    cmp #1
+    beq _yes
+    sec
+    rts
+_yes
+    clc
+    rts
+
 isAPressed
     lda mKeyA
     cmp #1
