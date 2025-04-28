@@ -5,6 +5,10 @@ handle
     jsr activate
     jsr handleAnimation
     jsr move
+    jsr isWPressed
+    bcs _show
+    jsr move
+_show
     jsr show
 
     pla
@@ -106,7 +110,7 @@ mEnemy0XLo
 mEnemy0XHi
     .byte 00
 mEnemy0YLo
-    .byte 32
+    .byte 16
 mEnemy0YHi
     .byte 0
 mEnemy0Dir

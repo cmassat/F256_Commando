@@ -81,6 +81,7 @@ _moveSouth
     rts
 _reset
     jsr map.init
+    jsr enemy.init
     jsr init
     jsr setup
     rts
