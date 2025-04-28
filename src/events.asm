@@ -10,6 +10,7 @@ _run
     phx
     phy
     jsr player.handle
+    jsr enemy.handle
     stz  mSOFSemaphore
     ply
     plx

@@ -55,22 +55,58 @@ POINTER_JMP = $C2
 POINTER_STATUS = $C4
 POINTER_MOVE = $C6
 POINTER_INIT = $C8
+POINTER_PLAYER_TOP = $C8
+POINTER_PLAYER_BOT = $CA
 
 SPRITE_START= $50000
+player_s_top0 = SPRITE_START
+player_s_bot0 = player_s_top0 + (256 * 16)
+
+player_e_top0 = SPRITE_START + (256 * 40)
+player_e_bot0 = player_e_top0 + (256 * 16)
+
+player_w_top0 = SPRITE_START + (256 * 44)
+player_w_bot0 = player_w_top0 + (256 * 16)
+
 player_up_top0 = SPRITE_START + (256 * 4)
 player_up_bot0 = player_up_top0 + (256 * 16)
 
-player_up_top1 = player_up_top0 + 256
-player_up_bot1 = player_up_bot0 + 256
+player_ne_top0 = SPRITE_START + (256 * 32)
+player_ne_bot0 = player_ne_top0 + (256 * 16)
 
-player_up_top2 = player_up_top1 + 256
-player_up_bot2 = player_up_bot1 + 256
+player_nw_top0 = SPRITE_START + (256 * 36)
+player_nw_bot0 = player_nw_top0 + (256 * 16)
 
-player_up_top3 = player_up_top2 + 256
-player_up_bot3 = player_up_bot2 + 256
+player_se_top0 = SPRITE_START + (256 * 8)
+player_se_bot0 = player_se_top0 + (256 * 16)
+
+player_sw_top0 = SPRITE_START + (256 * 12)
+player_sw_bot0 = player_sw_top0 + (256 * 16)
 
 
+enemy_s_top = SPRITE_START + (256 * 64)
+enemy_s_bot = enemy_s_top + (256 * 16)
 
+enemy_n_top = SPRITE_START + (256 * 68)
+enemy_n_bot = enemy_n_top + (256 * 16)
+
+enemy_ne_top = SPRITE_START + (256 * 72)
+enemy_ne_bot = enemy_ne_top + (256 * 16)
+
+enemy_nw_top = SPRITE_START + (256 * 76)
+enemy_nw_bot = enemy_nw_top + (256 * 16)
+
+enemy_se_top = SPRITE_START + (256 * 82)
+enemy_se_bot = enemy_se_top + (256 * 16)
+
+enemy_sw_top = SPRITE_START + (256 * 86)
+enemy_sw_bot = enemy_sw_top + (256 * 16)
+
+enemy_e_top = SPRITE_START + (256 * 90)
+enemy_e_bot = enemy_e_top + (256 * 16)
+
+enemy_w_top = SPRITE_START + (256 * 94)
+enemy_w_bot = enemy_e_top + (256 * 16)
 
 VGM_BANK = $08
 ym_reg_opl2     = $d580 ; Address pointer register for ports 0x000–0x0FF

@@ -10,6 +10,7 @@ start
 
 main
     jsr clearScreenMemory
+    jsr hideAllSprites
     stz MMU_IO_CTRL
     lda #00
     sta VKY_BKG_COL_B
@@ -49,6 +50,7 @@ main
 
     jsr state.init
     jsr player.init
+    jsr enemy.init
     jsr map.init
 
     jsr setFrameTimer
@@ -58,6 +60,9 @@ _gameLoop
     jmp _gameLoop
     rts
 .endsection
+.include "./constants/main.asm"
+.include "./player/main.asm"
+.include "./enemy/main.asm"
 .include "./api/f256k.asm"
 .include "./api/kernel.asm"
 .include "./api/video.asm"
@@ -73,7 +78,7 @@ _gameLoop
 .include "./api/keyboard.asm"
 .include "./events.asm"
 .include "./state.asm"
-.include "./player.asm"
+
 .include "./map.asm"
 .include "./util.asm"
 .include "./debug.asm"
