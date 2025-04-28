@@ -1,4 +1,9 @@
-framecontrol
+handleAnimation
+    jsr frameControl
+    jsr loadFrame
+
+    rts
+frameControl
     inc mFrameTracker
     lda mFrameTracker
     cmp #10
@@ -6,8 +11,6 @@ framecontrol
     rts
 _incFrame
     inc mFrame
-   ;lda #1
-   ;sta mFrame
     stz mFrameTracker
     lda mFrame
     cmp #4

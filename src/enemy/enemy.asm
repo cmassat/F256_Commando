@@ -2,9 +2,11 @@ handle
     phy
     phx
     pha
-    jsr Activate
-    jsr framecontrol
-    jsr loadFrame
+    jsr activate
+    jsr handleAnimation
+    jsr move
+    jsr show
+
     pla
     plx
     ply
@@ -18,6 +20,12 @@ activate
     rts
 _activate
     sty mIdx
+    ldy #offsetStatus
+    lda mEnemy0, y
+    cmp #status.active
+    bne _ok
+    rts
+_ok
     ldy #offsetStatus
     lda #status.active
     sta mEnemy0, y

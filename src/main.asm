@@ -62,7 +62,7 @@ _gameLoop
 .endsection
 .include "./constants/main.asm"
 .include "./player/main.asm"
-.include "./enemy/main.asm"
+.include "./enemy/imports.asm"
 .include "./api/f256k.asm"
 .include "./api/kernel.asm"
 .include "./api/video.asm"
